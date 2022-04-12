@@ -1,17 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "esnext",
-    "lib": ["esnext"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "module": "ESNext",
+    "baseUrl": ".",
+    "target": "es2016",
+    "lib": ["DOM", "ESNext"],
     "strict": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+    "noUnusedLocals": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "types": [
       "node"
-    ]
-  }
+    ],
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "./*.ts",
+  ],
+  "exclude": ["**/dist/**", "node_modules"]
 }
