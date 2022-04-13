@@ -1,21 +1,35 @@
 import path from 'path'
 import child_process from 'child_process'
 import fs from 'fs-extra'
+import { workRoot } from './path'
 
-export async function init(projectRoot: string) {
-  await removeUselessFile(projectRoot)
-  initGit(projectRoot)
-}
+export class Project {
+  rootPath = workRoot
+  private _name = ''
+  constructor(name: string) {
+    this._name = name
+    this.rootPath = path.join(this.rootPath, name)
+  }
 
-export async function removeUselessFile(projectRoot: string) {
-  const files = [
-    '.git',
-    '.github',
-  ]
+  async initSingleProject() {
+    await this.changePackageJson()
+    await this.initGit()
+  }
 
-  await Promise.all(files.map(file => fs.remove(path.join(projectRoot, file))))
-}
+  async initGit() {
+    const files = [
+      '.git',
+    ]
 
-export async function initGit(cwd: string) {
-  child_process.exec('git init && git add . && git commit -m "🎉init project"', { cwd })
+    await Promise.all(files.map(file => fs.remove(path.join(this.rootPath, file))))
+    child_process.exec('git init && git add . && git commit -m "🎉init project"', { cwd: this.rootPath })
+  }
+
+  private async changePackageJson() {
+    const target = path.join(this.rootPath, 'package.json')
+    const s = await fs.readFile(target, 'utf-8')
+    const ns = s.replace(/(\[name\])|(?<=")name(?=",)/g, this._name)
+
+    return await fs.outputFile(target, ns)
+  }
 }

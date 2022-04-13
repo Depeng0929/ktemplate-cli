@@ -5,7 +5,7 @@ export enum TemplateTypes {
   monorepo = 'monorepo',
 }
 
-export interface IProject {
+export interface ITemplate {
   /**
    * 重命名项目的名称
    */
