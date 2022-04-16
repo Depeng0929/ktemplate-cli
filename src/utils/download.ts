@@ -3,6 +3,7 @@ import os from 'os'
 import fs from 'fs-extra'
 import shelljs from 'shelljs'
 import consola from 'consola'
+import { green } from 'kolorist'
 
 import { githubName } from './tools'
 
@@ -14,6 +15,6 @@ export async function download(url: string) {
 
   shelljs.cd(os.tmpdir())
   shelljs.exec(`git clone ${url}`)
-  consola.success(`临时存储在${tmpDir}`)
+  consola.success(`临时存储在${green(tmpDir)}`)
   return tmpDir
 }

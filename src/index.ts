@@ -81,7 +81,7 @@ function commandOptions(args: Argv<{}>) {
     .positional('name', {
       default: 'test',
       type: 'string',
-      describe: '项目名字',
+      describe: '项目名称',
     })
 }
 
@@ -91,7 +91,7 @@ async function inquirerAddSingleSelect(name: string) {
       {
         type: 'list',
         name: 'add',
-        message: '请选择您要添加的项目',
+        message: '请选择您要添加的项目种类',
         choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
       },
     ])
