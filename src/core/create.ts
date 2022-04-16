@@ -2,16 +2,26 @@ import path from 'path'
 import inquirer from 'inquirer'
 import { add } from '../core/add'
 import { TemplateTypes } from '../types/index.d'
-import { workRoot } from '../utils'
-import { Project } from '../utils/Project'
+import { createProject } from '../project'
 
-export async function create(name: string) {
-  const monorepoProject = new Project({ name, type: TemplateTypes.monorepo })
-  const monorepoPath = path.join(workRoot, name)
-  const packagesPath = path.join(monorepoPath, 'packages')
-  // 创建Monorepor主项目
+export async function createMonorepo(name: string) {
+  const monorepoProject = await createMain(name)
+  const packagesPath = path.join(monorepoProject.rootDir, 'packages')
+
+  await createPackage(packagesPath)
+
+  monorepoProject.initGit()
+}
+
+// 创建Monorepor主项目
+async function createMain(name: string) {
+  const monorepoProject = createProject({ name, type: TemplateTypes.monorepo })
   await add(monorepoProject)
+  return monorepoProject
+}
 
+// 创建monorepo子项目
+async function createPackage(packagesPath) {
   const { packages } = await inquirer
     .prompt([
       {
@@ -21,8 +31,6 @@ export async function create(name: string) {
         choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
       },
     ])
-
-  // 创建monorepo子项目
   const inquirerOptions = packages.map(p => ({
     type: 'input',
     name: `${p}`,
@@ -34,14 +42,16 @@ export async function create(name: string) {
   Promise.all(
     Object.keys(names)
       .map(t =>
-        add(new Project(
-          {
-            name: names[t],
-            type: t as any,
-            rootPath: packagesPath,
-            isMonorepo: true,
-          },
-        )),
+        add(
+          createProject(
+            {
+              name: names[t],
+              type: t as any,
+              rootPath: packagesPath,
+              isPackage: true,
+            },
+          ),
+        ),
       ),
   )
 }

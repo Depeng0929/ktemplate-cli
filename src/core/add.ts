@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import { bold, green, yellow } from 'kolorist'
 
 import { download } from '../utils/download'
-import type { Project } from '../utils/Project'
+import type { Project } from '../project/Project'
 
 export async function add(project: Project) {
   const loading = ora('正在下载远程仓库-类型').start()
@@ -23,5 +23,5 @@ export async function add(project: Project) {
   await fs.remove(templateDir)
   loading2.succeed('模版已建立')
 
-  project.initSingleProject()
+  project.init()
 }

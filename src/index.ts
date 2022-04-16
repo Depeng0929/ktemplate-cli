@@ -6,8 +6,8 @@ import { version } from '../package.json'
 import { removeProject } from './core/remove'
 import { add } from './core/add'
 import { ProjectTypes, TemplateTypes } from './types/index.d'
-import { Project } from './utils/Project'
-import { create } from './core/create'
+import { createMonorepo } from './core/create'
+import { createProject } from './project'
 
 const cli = yargs
   .scriptName('kdp')
@@ -29,12 +29,12 @@ cli.command(
           type: 'list',
           name: 'type',
           message: '请选择项目类型',
-          choices: [ProjectTypes.monorepo, ProjectTypes.single],
+          choices: [ProjectTypes.single, ProjectTypes.monorepo],
         },
       ])
 
     if (type === ProjectTypes.monorepo)
-      create(name)
+      createMonorepo(name)
     else
       inquirerAddSingleSelect(name)
   })
@@ -96,7 +96,7 @@ async function inquirerAddSingleSelect(name: string) {
       },
     ])
 
-  const project = new Project({
+  const project = createProject({
     name,
     type: item,
   })

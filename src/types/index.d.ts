@@ -20,3 +20,13 @@ export enum ProjectTypes {
   monorepo = 'monorepo',
   single = 'single',
 }
+
+export interface IProject {
+  name: string
+  type: TemplateTypes
+  rootPath?: string
+  /**
+   * 是否是monorepo 子项目
+   */
+  isPackage?: boolean
+}
