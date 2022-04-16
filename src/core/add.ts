@@ -4,16 +4,22 @@ import fs from 'fs-extra'
 import { bold, green, yellow } from 'kolorist'
 
 import { download } from '../utils/download'
-import type { Project } from '../project/Project'
+import type { BaseProject } from '../project/BaseProject'
 
-export async function add(project: Project) {
-  const loading = ora('正在下载远程仓库-类型').start()
+export async function add(project: BaseProject) {
+  if (project.isPackage) {
+    console.log()
+    console.log(`${bold('当前正处于monorepo')}`)
+    console.log()
+  }
+
+  const loading = ora('正在下载远程仓库').start()
 
   console.log()
   console.log(`${bold(`${project.name}`)}   ${yellow(`(${project.type})`)}`)
 
   const templateDir: string = await download(project.templateURL)
-  loading.succeed('模版下载完成-类型')
+  loading.succeed('模版下载完成')
 
   const loading2 = ora('正在复制模版')
   loading2.start()

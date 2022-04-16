@@ -1,3 +1,4 @@
+import path from 'path'
 import yargs from 'yargs'
 import type { Argv } from 'yargs'
 import consola from 'consola'
@@ -8,6 +9,7 @@ import { add } from './core/add'
 import { ProjectTypes, TemplateTypes } from './types/index.d'
 import { createMonorepo } from './core/create'
 import { createProject } from './project'
+import { isMonorepo, workRoot } from './utils'
 
 const cli = yargs
   .scriptName('kdp')
@@ -33,18 +35,53 @@ cli.command(
         },
       ])
 
-    if (type === ProjectTypes.monorepo)
-      createMonorepo(name)
-    else
-      inquirerAddSingleSelect(name)
+    if (type === ProjectTypes.monorepo) { createMonorepo(name) }
+    else {
+      const { add: item } = await inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'add',
+            message: '请选择您要添加的项目种类',
+            choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
+          },
+        ])
+
+      const project = createProject({
+        name,
+        type: item,
+      })
+      add(project)
+    }
   })
 
 cli.command(
   'add [name]',
   'Add project in monorepo',
   (yargs: any) => commandOptions(yargs),
-  ({ name }) => {
-    inquirerAddSingleSelect(name)
+  async({ name }) => {
+    const { add: item } = await inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'add',
+          message: '请选择您要添加的项目种类',
+          choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
+        },
+      ])
+
+    const project = isMonorepo()
+      ? createProject({
+        name,
+        type: item,
+        rootPath: path.join(workRoot, 'packages'),
+        isPackage: true,
+      })
+      : createProject({
+        name,
+        type: item,
+      })
+    add(project)
   })
 
 cli.command(
@@ -86,19 +123,5 @@ function commandOptions(args: Argv<{}>) {
 }
 
 async function inquirerAddSingleSelect(name: string) {
-  const { add: item } = await inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'add',
-        message: '请选择您要添加的项目种类',
-        choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
-      },
-    ])
 
-  const project = createProject({
-    name,
-    type: item,
-  })
-  add(project)
 }

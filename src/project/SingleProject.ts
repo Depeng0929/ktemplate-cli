@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
-import { isMonorepo } from '../utils/monorepo'
+import { TemplateTypes } from '../types/index.d'
 import { BaseProject } from './BaseProject'
 
 export class SingleProject extends BaseProject {
@@ -8,7 +8,7 @@ export class SingleProject extends BaseProject {
     await this.changePackageJson()
     await this.removeUseless()
 
-    if (!isMonorepo(this.rootDir))
+    if (this.type !== TemplateTypes.monorepo)
       this.initGit()
   }
 

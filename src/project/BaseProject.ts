@@ -1,6 +1,6 @@
 import path from 'path'
 import child_process from 'child_process'
-import type { IProject, TemplateTypes } from '../types'
+import type { IProject, TemplateTypes } from '../types/index.d'
 import { workRoot } from '../utils/path'
 import { templateURL } from '../config'
 
