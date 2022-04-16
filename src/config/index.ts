@@ -1,8 +1,8 @@
 import { TemplateTypes } from '../types/index.d'
 
 export const templateURL = {
-  [TemplateTypes.vue]: 'https://github.com/Depeng0929/ktemplate-vue',
-  [TemplateTypes.ts]: 'https://github.com/Depeng0929/ktemplate-ts',
-  [TemplateTypes.minapp]: 'https://github.com/Depeng0929/ktemplate-miapp-v',
-  [TemplateTypes.monorepo]: 'https://github.com/Depeng0929/ktemplate-monorepo',
+  [TemplateTypes.vue]: 'git@github.com:Depeng0929/ktemplate-vue.git',
+  [TemplateTypes.ts]: 'git@github.com:Depeng0929/ktemplate-ts.git',
+  [TemplateTypes.minapp]: 'git@github.com:Depeng0929/ktemplate-miapp-v.git',
+  [TemplateTypes.monorepo]: 'git@github.com:Depeng0929/ktemplate-monorepo.git',
 }

@@ -1,21 +1,19 @@
 import path from 'path'
 import os from 'os'
 import fs from 'fs-extra'
-import downloadGit from 'download-git-repo'
+import shelljs from 'shelljs'
+import consola from 'consola'
+
 import { githubName } from './tools'
 
-export async function download(url: string): Promise<string> {
+export async function download(url: string) {
   const { name } = githubName(url)
   const tmpDir = path.join(os.tmpdir(), name)
 
   await fs.remove(tmpDir)
 
-  return new Promise((resolve, reject) => {
-    downloadGit(`direct:${url}.git#main`, tmpDir, { clone: true }, (err: any) => {
-      if (err)
-        return reject(err)
-
-      return resolve(tmpDir)
-    })
-  })
+  shelljs.cd(os.tmpdir())
+  shelljs.exec(`git clone ${url}`)
+  consola.success(`临时存储在${tmpDir}`)
+  return tmpDir
 }

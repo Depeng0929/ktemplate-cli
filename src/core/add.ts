@@ -2,31 +2,20 @@ import path from 'path'
 import ora from 'ora'
 import fs from 'fs-extra'
 import { download } from '../utils/download'
-import type { ITemplate } from '../types'
-import { Project } from '../utils/file'
+import type { Project } from '../utils/Project'
 import { workRoot } from '../utils'
 
-export async function add(template: ITemplate, skip = false) {
-  const { name, templateURL } = template
-  const project = new Project(name)
-
-  const loading = ora('正在下载远程仓库')
+export async function add(project: Project, skip = false) {
+  const loading = ora(`正在下载远程仓库-类型：${project.type}, 名称:${project.name}`).start()
   loading.start()
-  const templateDir: string = await download(templateURL)
-  loading.succeed('模版下载完成')
+  const templateDir: string = await download(project.templateURL)
+  loading.succeed(`模版下载完成-类型：${project.type}, 名称:${project.name}`)
 
-  const loading2 = ora('正在复制模版')
+  const loading2 = ora(`正在复制模版到${project.rootDir}`)
   loading2.start()
-  await fs.move(templateDir, project.rootPath)
+  await fs.move(templateDir, project.rootDir)
   await fs.remove(templateDir)
-  loading2.succeed('模版已建立')
+  loading2.succeed(`模版已建立-${project.rootDir}`)
 
-  if (skip)
-    project.initSingleProject()
-}
-
-function isMonorepo() {
-  const workspace = path.join(workRoot, 'pnpm-workspace.yaml')
-  const isExists = fs.existsSync(workspace)
-  return isExists
+  project.initSingleProject()
 }
