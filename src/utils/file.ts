@@ -4,11 +4,11 @@ import fs from 'fs-extra'
 import { workRoot } from './path'
 
 export class Project {
-  rootPath = workRoot
-  private _name = ''
-  constructor(name: string) {
-    this._name = name
-    this.rootPath = path.join(this.rootPath, name)
+  public name: string
+  public rootPath: string
+  constructor(name: string, rootPath: string = workRoot) {
+    this.name = name
+    this.rootPath = path.join(rootPath, name)
   }
 
   async initSingleProject() {
@@ -28,7 +28,7 @@ export class Project {
   private async changePackageJson() {
     const target = path.join(this.rootPath, 'package.json')
     const s = await fs.readFile(target, 'utf-8')
-    const ns = s.replace(/(\[name\])|(?<=")name(?=",)/g, this._name)
+    const ns = s.replace(/(\[name\])|(?<=")name(?=",)/g, this.name)
 
     return await fs.outputFile(target, ns)
   }

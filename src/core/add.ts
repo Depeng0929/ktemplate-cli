@@ -1,10 +1,12 @@
+import path from 'path'
 import ora from 'ora'
 import fs from 'fs-extra'
 import { download } from '../utils/download'
 import type { ITemplate } from '../types'
 import { Project } from '../utils/file'
+import { workRoot } from '../utils'
 
-export async function add(template: ITemplate) {
+export async function add(template: ITemplate, skip = false) {
   const { name, templateURL } = template
   const project = new Project(name)
 
@@ -19,5 +21,12 @@ export async function add(template: ITemplate) {
   await fs.remove(templateDir)
   loading2.succeed('模版已建立')
 
-  project.initSingleProject()
+  if (skip)
+    project.initSingleProject()
+}
+
+function isMonorepo() {
+  const workspace = path.join(workRoot, 'pnpm-workspace.yaml')
+  const isExists = fs.existsSync(workspace)
+  return isExists
 }

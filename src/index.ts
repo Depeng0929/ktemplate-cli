@@ -1,10 +1,19 @@
+import path from 'path'
 import yargs from 'yargs'
 import type { Argv } from 'yargs'
 import consola from 'consola'
+import inquirer from 'inquirer'
 import { version } from '../package.json'
 import { templateURL } from './config'
 import { removeProject } from './core/remove'
 import { add } from './core/add'
+import { TemplateTypes } from './types/index.d'
+import { workRoot } from './utils'
+
+enum ProjectTypes {
+  monorepo = 'monorepo',
+  single = 'single',
+}
 
 const cli = yargs
   .scriptName('kdp')
@@ -19,8 +28,24 @@ cli.command(
   'create [name]',
   'Create project',
   (yargs: any) => commandOptions(yargs),
-  ({ name }) => {
-    console.log(name)
+  async({ name }) => {
+    const { type } = await inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: '请选择项目类型',
+          choices: [ProjectTypes.monorepo, ProjectTypes.single],
+        },
+      ])
+    if (type === ProjectTypes.monorepo) {
+      // await add({ name, templateURL: templateURL.monorepo })
+      const monorepoPath = path.join(workRoot, name)
+      console.log(monorepoPath)
+    }
+
+    if (type === ProjectTypes.single)
+      inquirerAddSingleSelect(name)
   })
 
 cli.command(
@@ -28,7 +53,7 @@ cli.command(
   'Add project in monorepo',
   (yargs: any) => commandOptions(yargs),
   ({ name }) => {
-    add({ name, templateURL: templateURL.ts })
+    inquirerAddSingleSelect(name)
   })
 
 cli.command(
@@ -67,4 +92,18 @@ function commandOptions(args: Argv<{}>) {
       type: 'string',
       describe: '项目名字',
     })
+}
+
+async function inquirerAddSingleSelect(name: string) {
+  const { add: item } = await inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'add',
+        message: '请选择您要添加的项目',
+        choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
+      },
+    ])
+  const url = templateURL[item]
+  add({ name, templateURL: url })
 }
