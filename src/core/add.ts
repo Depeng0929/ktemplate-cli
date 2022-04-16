@@ -1,11 +1,9 @@
-import path from 'path'
 import ora from 'ora'
 import fs from 'fs-extra'
 import { download } from '../utils/download'
 import type { Project } from '../utils/Project'
-import { workRoot } from '../utils'
 
-export async function add(project: Project, skip = false) {
+export async function add(project: Project) {
   const loading = ora(`正在下载远程仓库-类型：${project.type}, 名称:${project.name}`).start()
   loading.start()
   const templateDir: string = await download(project.templateURL)

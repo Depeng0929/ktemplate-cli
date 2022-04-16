@@ -15,3 +15,8 @@ export interface ITemplate {
    */
   templateURL: string
 }
+
+export enum ProjectTypes {
+  monorepo = 'monorepo',
+  single = 'single',
+}
