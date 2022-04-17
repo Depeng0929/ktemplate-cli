@@ -11,6 +11,8 @@ export async function createMonorepo(name: string) {
   await createPackage(packagesPath)
 
   monorepoProject.initGit()
+
+  monorepoProject.initGit()
 }
 
 // 创建Monorepor主项目
@@ -39,7 +41,7 @@ async function createPackage(packagesPath) {
   const names = await inquirer
     .prompt(inquirerOptions)
 
-  Promise.all(
+  return Promise.all(
     Object.keys(names)
       .map(t =>
         add(

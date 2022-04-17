@@ -121,7 +121,3 @@ function commandOptions(args: Argv<{}>) {
       describe: '项目名称',
     })
 }
-
-async function inquirerAddSingleSelect(name: string) {
-
-}
