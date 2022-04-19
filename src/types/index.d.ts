@@ -3,6 +3,7 @@ export enum TemplateTypes {
   minapp = 'minapp',
   ts = 'ts',
   monorepo = 'monorepo',
+  node='node',
 }
 
 export interface ITemplate {
@@ -17,8 +18,8 @@ export interface ITemplate {
 }
 
 export enum ProjectTypes {
-  monorepo = 'monorepo',
   single = 'single',
+  monorepo = 'monorepo',
 }
 
 export interface IProject {
