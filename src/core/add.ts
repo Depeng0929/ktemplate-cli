@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
+import path from 'path'
 import ora from 'ora'
 import fs from 'fs-extra'
 import { bold, green, yellow } from 'kolorist'
 
 import { download } from '../utils/download'
 import type { BaseProject } from '../project/BaseProject'
+import { cssURL } from '../config'
+import { isApplication } from '../utils'
 
 export async function add(project: BaseProject) {
   if (project.isPackage) {
@@ -21,6 +24,9 @@ export async function add(project: BaseProject) {
   const templateDir: string = await download(project.templateURL)
   loading.succeed('模版下载完成')
 
+  if (isApplication(project.type))
+    addCommonCss(project)
+
   const loading2 = ora('正在复制模版')
   loading2.start()
   console.log()
@@ -30,4 +36,18 @@ export async function add(project: BaseProject) {
   loading2.succeed('模版已建立')
 
   project.init()
+}
+
+async function addCommonCss(project: BaseProject) {
+  const loading = ora('正在下载@depeng9527/css').start()
+
+  console.log()
+  console.log(`${bold(`${project.name}`)}   ${yellow(`(${project.type})`)}`)
+
+  const templateDir: string = await download(cssURL)
+  loading.succeed('@depeng9527/css下载完成')
+
+  const target = path.join(project.rootDir, 'src/styles')
+  const source = path.join(templateDir, 'src/styles')
+  return await fs.move(source, target, { overwrite: true })
 }
