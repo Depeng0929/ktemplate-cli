@@ -24,9 +24,6 @@ export async function add(project: BaseProject) {
   const templateDir: string = await download(project.templateURL)
   loading.succeed('模版下载完成')
 
-  if (isApplication(project.type))
-    await addCommonCss(project)
-
   const loading2 = ora('正在复制模版')
   loading2.start()
   console.log()
@@ -35,14 +32,15 @@ export async function add(project: BaseProject) {
   await fs.remove(templateDir)
   loading2.succeed('模版已建立')
 
+  if (isApplication(project.type))
+    await addCommonCss(project)
+
   project.init()
 }
 
 async function addCommonCss(project: BaseProject) {
   const loading = ora('正在下载@depeng9527/css').start()
-
   console.log()
-  console.log(`${bold(`${project.name}`)}   ${yellow(`(${project.type})`)}`)
 
   const templateDir: string = await download(cssURL)
   loading.succeed('@depeng9527/css下载完成')
