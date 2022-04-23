@@ -25,7 +25,7 @@ export async function add(project: BaseProject) {
   loading.succeed('模版下载完成')
 
   if (isApplication(project.type))
-    addCommonCss(project)
+    await addCommonCss(project)
 
   const loading2 = ora('正在复制模版')
   loading2.start()
