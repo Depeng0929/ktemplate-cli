@@ -66,7 +66,7 @@ cli.command(
           type: 'list',
           name: 'add',
           message: '请选择您要添加的项目种类',
-          choices: [TemplateTypes.ts, TemplateTypes.vue, TemplateTypes.minapp],
+          choices: Object.values(TemplateTypes),
         },
       ])
 
