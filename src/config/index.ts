@@ -7,3 +7,5 @@ export const templateURL = {
   [TemplateTypes.monorepo]: 'git@github.com:Depeng0929/ktemplate-monorepo.git',
   [TemplateTypes.node]: 'git@github.com:Depeng0929/ktemplate-node.git',
 }
+
+export const cssURL = 'git@github.com:Depeng0929/common-css.git'
