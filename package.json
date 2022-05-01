@@ -65,7 +65,7 @@
     "knitwork": "^0.1.1",
     "kolorist": "^1.5.1",
     "magic-string": "^0.26.1",
-    "ora": "^6.1.0",
+    "ora": "5",
     "parse-github-url": "^1.0.2",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
