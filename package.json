@@ -1,6 +1,6 @@
 {
   "name": "kdp-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@6.32.3",
   "description": "",
   "keywords": [],
@@ -11,7 +11,6 @@
     "url": "git+https://github.com/Depeng0929/kdp-cli.git"
   },
   "funding": "https://github.com/sponsors/Depeng0929",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
