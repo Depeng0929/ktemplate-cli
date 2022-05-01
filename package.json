@@ -1,6 +1,6 @@
 {
   "name": "kdp-cli",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "pnpm@6.32.3",
   "description": "",
   "keywords": [],
