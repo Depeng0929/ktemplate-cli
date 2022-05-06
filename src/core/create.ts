@@ -6,7 +6,7 @@ import { createProject } from '../project'
 
 export async function createMonorepo(name: string) {
   const monorepoProject = await createMain(name)
-  const packagesPath = path.join(monorepoProject.rootDir, 'packages')
+  const packagesPath = path.join(monorepoProject.dir, 'packages')
 
   await createPackage(packagesPath)
 

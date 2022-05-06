@@ -21,14 +21,14 @@ export async function add(project: BaseProject) {
   console.log()
   console.log(`${bold(`${project.name}`)}   ${yellow(`(${project.type})`)}`)
 
-  const templateDir: string = await download(project.templateURL)
+  const templateDir: string = await download(project.cloneRUL)
   loading.succeed('模版下载完成')
 
   const loading2 = ora('正在复制模版')
   loading2.start()
   console.log()
-  console.log(`目标：${green(`${project.rootDir}`)}`)
-  await fs.move(templateDir, project.rootDir)
+  console.log(`目标：${green(`${project.dir}`)}`)
+  await fs.move(templateDir, project.dir)
   await fs.remove(templateDir)
   loading2.succeed('模版已建立')
 
@@ -45,7 +45,7 @@ async function addCommonCss(project: BaseProject) {
   const templateDir: string = await download(cssURL)
   loading.succeed('@depeng9527/css下载完成')
 
-  const target = path.join(project.rootDir, 'src/styles')
+  const target = path.join(project.dir, 'src/styles')
   const source = path.join(templateDir, 'src/styles')
   return await fs.move(source, target, { overwrite: true })
 }

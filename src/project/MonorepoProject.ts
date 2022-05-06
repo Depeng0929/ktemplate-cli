@@ -20,15 +20,15 @@ export class MonorepoProject extends BaseProject {
       '.vscode',
     ]
 
-    await fs.remove(path.join(this.rootDir, 'packages', 'README.md'))
-    return await Promise.all(files.map(file => fs.remove(path.join(this.rootDir, file))))
+    await fs.remove(path.join(this.dir, 'packages', 'README.md'))
+    return await Promise.all(files.map(file => fs.remove(path.join(this.dir, file))))
   }
 
   private async changePackageJson() {
-    const monorepoRoot = getMonorepo(this.rootDir)
+    const monorepoRoot = getMonorepo(this.dir)
     const monorepoPackageJson = fs.readJsonSync(path.join(monorepoRoot, 'package.json'))
 
-    const target = path.join(this.rootDir, 'package.json')
+    const target = path.join(this.dir, 'package.json')
     const s = await fs.readFile(target, 'utf-8')
     const ns = s
       .replace(/(\[name\])/g, `${monorepoPackageJson.name}`)
@@ -38,7 +38,7 @@ export class MonorepoProject extends BaseProject {
   }
 
   private updateTsConfig() {
-    const monorepoRoot = getMonorepo(this.rootDir)
+    const monorepoRoot = getMonorepo(this.dir)
     const tsConfigPath = path.join(monorepoRoot, 'tsconfig.json')
     const monorepoTsConfig = fs.readJsonSync(tsConfigPath)
     const monorepoPackageJson = fs.readJsonSync(path.join(monorepoRoot, 'package.json'))

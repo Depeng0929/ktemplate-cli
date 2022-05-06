@@ -16,12 +16,12 @@ export class SingleProject extends BaseProject {
     const files = [
       '.git',
     ]
-    await fs.remove(path.join(this.rootDir, 'packages', 'README.md'))
-    return await Promise.all(files.map(file => fs.remove(path.join(this.rootDir, file))))
+    await fs.remove(path.join(this.dir, 'packages', 'README.md'))
+    return await Promise.all(files.map(file => fs.remove(path.join(this.dir, file))))
   }
 
   private async changePackageJson() {
-    const target = path.join(this.rootDir, 'package.json')
+    const target = path.join(this.dir, 'package.json')
     const s = await fs.readFile(target, 'utf-8')
     const ns = s.replace(/(\[name\])|(?<=")name(?=",)/g, this.name)
 

@@ -25,11 +25,11 @@ export abstract class BaseProject {
   /**
    * 当前项目目录
    */
-  get rootDir() {
+  get dir() {
     return path.join(this.rootPath, this.name)
   }
 
-  get templateURL() {
+  get cloneRUL() {
     return templateURL[this.type]
   }
 
@@ -45,6 +45,6 @@ export abstract class BaseProject {
   abstract init(): Promise<void>
 
   public async initGit() {
-    child_process.exec('git init && git add . && git commit -m "🎉init project"', { cwd: this.rootDir })
+    child_process.exec('git init && git add . && git commit -m "🎉init project"', { cwd: this.dir })
   }
 }
