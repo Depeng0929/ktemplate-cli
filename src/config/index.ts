@@ -6,6 +6,7 @@ export const templateURL = {
   [TemplateTypes.minapp]: 'git@github.com:Depeng0929/ktemplate-miapp-v.git',
   [TemplateTypes.monorepo]: 'git@github.com:Depeng0929/ktemplate-monorepo.git',
   [TemplateTypes.node]: 'git@github.com:Depeng0929/ktemplate-node.git',
+  [TemplateTypes.app]: 'git@github.com:Depeng0929/ktemplateApp.git',
 }
 
 export const cssURL = 'git@github.com:Depeng0929/common-css.git'

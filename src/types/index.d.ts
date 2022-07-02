@@ -4,6 +4,7 @@ export enum TemplateTypes {
   ts = 'ts',
   monorepo = 'monorepo',
   node='node',
+  app='app',
 }
 
 export interface ITemplate {
