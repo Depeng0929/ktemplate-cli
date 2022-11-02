@@ -18,8 +18,14 @@ npm install -g kdp-cli
 
 * [Depeng0929/ktemplateApp](https://github.com/Depeng0929/ktemplateApp) - Create app for [React Native](https://reactnative.dev/)
 
+
 ## Usage
 
 1. Run `kdp create [ProjectName] `.
 2. Select the template above.
 3. Wait a moment and Enjoy This !
+
+```shell
+git config --global http.proxy http://127.0.0.1:your-proxy-port
+git config --global https.proxy https://127.0.0.1:your-proxy-port
+```
