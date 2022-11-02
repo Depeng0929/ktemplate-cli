@@ -28,4 +28,8 @@ npm install -g kdp-cli
 ```shell
 git config --global http.proxy http://127.0.0.1:your-proxy-port
 git config --global https.proxy https://127.0.0.1:your-proxy-port
+
+// unset
+git config --global --unset http.proxy
+git config --global --unset https.proxy
 ```
